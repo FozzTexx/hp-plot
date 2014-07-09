@@ -1,0 +1,61 @@
+%!PS-Adobe-2.0
+% HPGL Conversion Code
+% Copyright 1998-2014 Chris Osborn <fozztexx@fozztexx.com>
+/hp_res 1012 72 72 transform pop div def
+/hpcoord {hp_res mul cvi} bind def
+/hp_fixx {} bind def
+/hp_fixy {neg} bind def
+
+/hp_dumppath {
+  {(PU;PA) print 1 index 1 index transform 2 1 roll hpcoord hp_fixx = (,) print hpcoord hp_fixy = (;) print
+    1 index 1 index transform 2 1 roll hpcoord
+    /hp_sx 2 1 roll def hpcoord /hp_sy 2 1 roll def
+    pop pop
+  }
+  {(PD;PA) print 1 index 1 index transform 2 1 roll hpcoord hp_fixx = (,) print hpcoord hp_fixy = (;) print
+    pop pop}
+  {(PD;PA) print 1 index 1 index transform 2 1 roll hpcoord hp_fixx = (,) print hpcoord hp_fixy = (;) print
+    pop pop pop pop pop pop}
+  {(PD;PA) print hp_sx hp_fixx = (,) print hp_sy hp_fixy = (;) print}
+  pathforall
+  (PU;) print flush
+} bind def
+
+/stroke {flattenpath hp_dumppath newpath} bind def
+/show {false charpath flattenpath hp_dumppath newpath} bind def
+/fill {/hp_plotfills where {pop hp_plotfills {
+  flattenpath hp_dumppath newpath} if} if
+} bind def
+
+/__HPGLRectPath {
+  4 2 roll moveto 1 index 0 rlineto 0 exch rlineto neg 0 rlineto closepath
+} bind def
+
+/__HPGLProcessRectArgs {
+  1 index type /arraytype eq {
+    exch 0 4 2 index length 1 sub {
+      dup 3 add 1 exch {
+	1 index exch get exch
+      } for 5 1 roll 5 index exec
+    } for pop pop
+  } {
+    exec
+  } ifelse
+} bind def
+
+/rectfill {
+  gsave newpath {
+    __HPGLRectPath fill
+  } __HPGLProcessRectArgs grestore
+}
+
+/rectstroke {
+  gsave newpath dup type /arraytype eq{dup length 6 eq}{false}ifelse{
+    {gsave __HPGLRectPath null concat stroke grestore}
+    dup length array cvx copy dup 2 4 -1 roll put __HPGLProcessRectArgs
+  }{{__HPGLRectPath stroke} __HPGLProcessRectArgs}ifelse grestore
+} bind def
+
+3 8 div 72 mul neg 1 4 div 72 mul neg translate
+
+% End HPGL Conversion Code

@@ -1,0 +1,14 @@
+Connect 7220C to modem port. No null modem cable needed.
+
+Use hp-plot.sh to convert PostScript to HPGL using GhostScript and
+hpgl.ps
+
+** WARNING: coordinates may come out negative. If they do add a
+   translate PS command after the comments in the PS file.
+
+Use cat-serial to send HPGL output to plotter. It will automatically
+buffer.
+
+If output is too faint slow the pen down by adding a VS command to the
+HPGL just after the IN; command. VS1 worked well last time with how
+dried the pens were.
