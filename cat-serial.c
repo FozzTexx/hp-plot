@@ -17,10 +17,10 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include "getargs.h"
+#include "ttlock.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <fozzlib/getargs.h>
-#include <fozzlib/ttlock.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <termios.h>
@@ -48,10 +48,10 @@ int main(int argc, char *argv[])
     exit(1);
   }
 
-  while (ttlock(argv[count]))
+  while (ttlock(argv[1]))
     sleep(10);
   
-  fd = open(argv[count], O_RDWR);
+  fd = open(argv[1], O_RDWR);
 
   tcgetattr(fd, &state);
   cfmakeraw(&state);
